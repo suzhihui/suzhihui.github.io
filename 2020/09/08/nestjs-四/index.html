@@ -1,0 +1,253 @@
+<!DOCTYPE html><html lang="zh" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>nestjs(四) | 日不新，则日退</title><meta name="description" content="nestjs(四)"><meta name="keywords" content="nestjs"><meta name="author" content="laosu"><meta name="copyright" content="laosu"><meta name="format-detection" content="telephone=no"><link rel="shortcut icon" href="/img/favicon.ico"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="https://fonts.googleapis.com" crossorigin="crossorigin"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta name="twitter:card" content="summary"><meta name="twitter:title" content="nestjs(四)"><meta name="twitter:description" content="nestjs(四)"><meta name="twitter:image" content="https://suzhihui.github.io/img/post.jpg"><meta property="og:type" content="article"><meta property="og:title" content="nestjs(四)"><meta property="og:url" content="https://suzhihui.github.io/2020/09/08/nestjs-%E5%9B%9B/"><meta property="og:site_name" content="日不新，则日退"><meta property="og:description" content="nestjs(四)"><meta property="og:image" content="https://suzhihui.github.io/img/post.jpg"><script src="https://cdn.jsdelivr.net/npm/js-cookie/dist/js.cookie.min.js"></script><script>var autoChangeMode = '1'
+var t = Cookies.get("theme")
+if (autoChangeMode == '1'){
+  var isDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches
+  var isLightMode = window.matchMedia("(prefers-color-scheme: light)").matches
+  var isNotSpecified = window.matchMedia("(prefers-color-scheme: no-preference)").matches
+  var hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+  if (t === undefined){
+    if (isLightMode) activateLightMode()
+    else if (isDarkMode) activateDarkMode()
+    else if (isNotSpecified || hasNoSupport){
+      console.log('You specified no preference for a color scheme or your browser does not support it. I Schedule dark mode during night time.')
+      var now = new Date()
+      var hour = now.getHours()
+      var isNight = hour < 6 || hour >= 18
+      isNight ? activateDarkMode() : activateLightMode()
+  }
+  } else if (t == 'light') activateLightMode()
+  else activateDarkMode()
+
+} else if (autoChangeMode == '2'){
+  now = new Date();
+  hour = now.getHours();
+  isNight = hour < 6 || hour >= 18
+  if(t === undefined) isNight? activateDarkMode() : activateLightMode()
+  else if (t === 'light') activateLightMode()
+  else activateDarkMode() 
+} else {
+  if ( t == 'dark' ) activateDarkMode()
+  else if ( t == 'light') activateLightMode()
+}
+
+function activateDarkMode(){
+  document.documentElement.setAttribute('data-theme', 'dark')
+  if (document.querySelector('meta[name="theme-color"]') !== null){
+    document.querySelector('meta[name="theme-color"]').setAttribute('content','#000')
+  }
+}
+function activateLightMode(){
+  document.documentElement.setAttribute('data-theme', 'light')
+  if (document.querySelector('meta[name="theme-color"]') !== null){
+  document.querySelector('meta[name="theme-color"]').setAttribute('content','#fff')
+  }
+}</script><link rel="stylesheet" href="/css/index.css" ><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><link rel="canonical" href="https://suzhihui.github.io/2020/09/08/nestjs-%E5%9B%9B/"><link rel="prev" title="nestjs(五)" href="https://suzhihui.github.io/2020/09/09/nestjs-%E4%BA%94/"><link rel="next" title="nestjs(三)" href="https://suzhihui.github.io/2020/09/03/nestjs-%E4%B8%89/"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":2,"translateDelay":0,"cookieDomain":"https://xxx/","msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  },
+  bookmark: {
+    message_prev: 'Press',
+    message_next: 'to bookmark this page'
+  },
+  runtime_unit: 'days',
+  runtime: true,
+  copyright: undefined,
+  ClickShowText: undefined,
+  medium_zoom: false,
+  fancybox: true,
+  Snackbar: undefined,
+  baiduPush: false,
+  highlightCopy: true,
+  highlightLang: true,
+  highlightShrink: 'false',
+  isFontAwesomeV5: false,
+  isPhotoFigcaption: false
+  
+}</script><script>var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isSidebar: true  
+  }</script><noscript><style>
+#page-header {
+  opacity: 1
+}
+.justified-gallery img{
+  opacity: 1
+}
+</style></noscript><meta name="generator" content="Hexo 4.2.1"></head><body><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" src="/img/avatar.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">Articles</div><div class="length_num">20</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">Tags</div><div class="length_num">8</div></a></div></div><div class="mobile_data_item is-center">     <div class="mobile_data_link"><a href="/categories/"><div class="headline">Categories</div><div class="length_num">4</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> About</span></a></div><div class="menus_item"><a class="site-page"><i class="fa-fw fa fa-list" aria-hidden="true"></i><span> List</span><i class="fa fa-chevron-down menus-expand" aria-hidden="true"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/music/"><i class="fa-fw fa fa-music"></i><span> Music</span></a></li><li><a class="site-page" href="/movies/"><i class="fa-fw fa fa-film"></i><span> Movie</span></a></li></ul></div></div></div></div><i class="fa fa-arrow-right on" id="toggle-sidebar" aria-hidden="true">     </i><div id="sidebar"><div class="sidebar-toc"><div class="sidebar-toc__title">Catalog</div><div class="sidebar-toc__progress"><span class="progress-notice">You've read</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar">     </div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#一、find的基本使用"><span class="toc-number">1.</span> <span class="toc-text">一、find的基本使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二、Find的进阶选项"><span class="toc-number">2.</span> <span class="toc-text">二、Find的进阶选项</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#三、TypeORM不仅仅提供Find方法-还有一系列的方法"><span class="toc-number">3.</span> <span class="toc-text">三、TypeORM不仅仅提供Find方法,还有一系列的方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#四、本章节代码"><span class="toc-number">4.</span> <span class="toc-text">四、本章节代码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#一、什么是QueryBuilder"><span class="toc-number">5.</span> <span class="toc-text">一、什么是QueryBuilder</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二、创建QueryBuilder的几种方式"><span class="toc-number">6.</span> <span class="toc-text">二、创建QueryBuilder的几种方式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#三、QueryBuilder五种类型"><span class="toc-number">7.</span> <span class="toc-text">三、QueryBuilder五种类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#四、查询数据方法"><span class="toc-number">8.</span> <span class="toc-text">四、查询数据方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#五、传递参数"><span class="toc-number">9.</span> <span class="toc-text">五、传递参数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#六、本章节参考代码"><span class="toc-number">10.</span> <span class="toc-text">六、本章节参考代码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#一、配置命令"><span class="toc-number">11.</span> <span class="toc-text">一、配置命令</span></a></li></ol></div></div></div><div id="body-wrap"><div class="post-bg" id="nav" style="background-image: url(/img/post.jpg)"><div id="page-header"><span class="pull_left" id="blog_name"><a class="blog_title" id="site-name" href="/">日不新，则日退</a></span><span class="pull_right menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> About</span></a></div><div class="menus_item"><a class="site-page"><i class="fa-fw fa fa-list" aria-hidden="true"></i><span> List</span><i class="fa fa-chevron-down menus-expand" aria-hidden="true"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/music/"><i class="fa-fw fa fa-music"></i><span> Music</span></a></li><li><a class="site-page" href="/movies/"><i class="fa-fw fa fa-film"></i><span> Movie</span></a></li></ul></div></div><span class="toggle-menu close"><a class="site-page"><i class="fa fa-bars fa-fw" aria-hidden="true"></i></a></span></span></div><div id="post-info"><div id="post-title"><div class="posttitle">nestjs(四)</div></div><div id="post-meta"><div class="meta-firstline"><time class="post-meta__date"><span class="post-meta__date-created" title="Created 2020-09-08 21:31:11"><i class="fa fa-calendar" aria-hidden="true"></i> Created 2020-09-08</span><span class="post-meta__separator">|</span><span class="post-meta__date-updated" title="Updated 2020-09-08 21:45:00"><i class="fa fa-history" aria-hidden="true"></i> Updated 2020-09-08</span></time><span class="post-meta__categories"><span class="post-meta__separator">|</span><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a></span></div><div class="meta-secondline"> </div><div class="meta-thirdline"><span class="post-meta-pv-cv"><i class="fa fa-eye post-meta__icon" aria-hidden="true"> </i><span>Post View:</span><span id="busuanzi_value_page_pv"></span></span><span class="post-meta-commentcount"></span></div></div></div></div><main class="layout_post" id="content-inner"><article id="post"><div id="article-container"><p>前面我们仅仅介绍了<code>TypeORM</code>对数据的增、删、改操作,一直未提查询数据的方法,用也仅仅是用了<code>find</code>和<code>findOne</code>的基本使用方式,因为我们在实际开发中80%的对数据库操作都是在查询数据,以下将重点介绍查询数据</p>
+<h2 id="一、find的基本使用"><a href="#一、find的基本使用" class="headerlink" title="一、find的基本使用"></a>一、<code>find</code>的基本使用</h2><ul>
+<li><p>1、全部查询所有的字段</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 1.查询全部的字段</span></span><br><span class="line"><span class="keyword">const</span> userRepository = connection.getRepository(User);</span><br><span class="line"><span class="keyword">const</span> result = <span class="keyword">await</span> userRepository.find();</span><br><span class="line"><span class="built_in">console</span>.log(result);</span><br></pre></td></tr></table></figure>
+
+<p>执行的<code>SQL</code>类似</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">user</span>;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>2、使用<code>select</code>选择性的查询想要的字段</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> userRepository = connection.getRepository(User);</span><br><span class="line"><span class="keyword">const</span> result = <span class="keyword">await</span> userRepository.find(&#123; select: [<span class="string">'id'</span>, <span class="string">'username'</span>] &#125;);</span><br><span class="line"><span class="built_in">console</span>.log(result);</span><br></pre></td></tr></table></figure>
+
+<p>执行的<code>SQL</code>类似 </p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="keyword">id</span>, username <span class="keyword">from</span> <span class="keyword">user</span>;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>3、使用<code>where</code>条件查询</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 3.使用where条件查询</span></span><br><span class="line"><span class="keyword">const</span> userRepository = connection.getRepository(User);</span><br><span class="line"><span class="keyword">const</span> result = <span class="keyword">await</span> userRepository.find(&#123; where: &#123; id: <span class="number">1</span> &#125; &#125;);</span><br><span class="line"><span class="built_in">console</span>.log(result);</span><br></pre></td></tr></table></figure>
+
+<p>执行的<code>SQL</code>类似 </p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">user</span> <span class="keyword">where</span> user.id = <span class="number">1</span>;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>4、使用<code>where</code>多条件<code>and</code>的关系查询数据</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> userRepository = connection.getRepository(User);</span><br><span class="line"><span class="keyword">const</span> result = <span class="keyword">await</span> userRepository.find(&#123; where: &#123; id: <span class="number">1</span>, username: <span class="string">'xx'</span> &#125; &#125;);</span><br><span class="line"><span class="built_in">console</span>.log(result);</span><br></pre></td></tr></table></figure>
+
+<p>执行的<code>SQL</code>类似 </p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">user</span> <span class="keyword">where</span> user.id = <span class="number">1</span> <span class="keyword">and</span> user.username = <span class="string">'xx'</span>;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>5、使用<code>where</code>多条件<code>or</code>的关系查询数据</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 5.使用where..or查询数据</span></span><br><span class="line"><span class="keyword">const</span> userRepository = connection.getRepository(User);</span><br><span class="line"><span class="keyword">const</span> result = <span class="keyword">await</span> userRepository.find(&#123; where: [&#123; id: <span class="number">1</span> &#125;, &#123; username: <span class="string">'xx'</span> &#125;] &#125;);</span><br><span class="line"><span class="built_in">console</span>.log(result);</span><br></pre></td></tr></table></figure>
+
+<p>执行的<code>SQL</code>类似 </p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">user</span> <span class="keyword">where</span> user.id = <span class="number">1</span> <span class="keyword">or</span> user.username = <span class="string">'xx'</span>;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>6、<code>relations</code>关系查询(<font color="#f00">前提是要先有外键关联关系</font>)</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 6.relations关系查询</span></span><br><span class="line"><span class="keyword">const</span> userRepository = connection.getRepository(User);</span><br><span class="line"><span class="keyword">const</span> result = <span class="keyword">await</span> userRepository.find(&#123; relations: [<span class="string">'userDetail'</span>] &#125;);</span><br><span class="line"><span class="built_in">console</span>.log(result);</span><br></pre></td></tr></table></figure>
+
+<p>执行的<code>SQL</code>类似 </p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> a.*,b.* <span class="keyword">from</span> <span class="keyword">user</span> <span class="keyword">as</span> a <span class="keyword">left</span> <span class="keyword">join</span> user_extend <span class="keyword">as</span> b <span class="keyword">on</span> a.id = b.userId;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>7、使用<code>join</code>关系查询(对<code>relations</code>的扩展)</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 7.使用join</span></span><br><span class="line"><span class="keyword">const</span> userRepository = connection.getRepository(User);</span><br><span class="line"><span class="keyword">const</span> result = <span class="keyword">await</span> userRepository.find(&#123;</span><br><span class="line">    join: &#123;</span><br><span class="line">        alias: <span class="string">'user'</span>,</span><br><span class="line">        leftJoinAndSelect: &#123;</span><br><span class="line">            detail: <span class="string">'user.userDetail'</span>,</span><br><span class="line">            posts: <span class="string">'user.posts'</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line"><span class="built_in">console</span>.log(<span class="built_in">JSON</span>.stringify(result));</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>8、<code>order</code>排序查询</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> userRepository = connection.getRepository(User);</span><br><span class="line"><span class="keyword">const</span> result = <span class="keyword">await</span> userRepository.find(&#123;</span><br><span class="line">    order: &#123;</span><br><span class="line">        id: <span class="string">'DESC'</span>,</span><br><span class="line">        username: <span class="string">'ASC'</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line"><span class="built_in">console</span>.log(result);</span><br></pre></td></tr></table></figure>
+
+<p>执行的<code>SQL</code>类似 </p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">user</span> <span class="keyword">order</span> <span class="keyword">by</span> username <span class="keyword">asc</span>, <span class="keyword">id</span> <span class="keyword">desc</span>;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>9、分页查询数据</p>
+<ul>
+<li><code>skip</code>偏移(表示从哪里开始)</li>
+<li><code>take</code>查询多少条数据</li>
+</ul>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 9.分页查询</span></span><br><span class="line"><span class="keyword">const</span> userRepository = connection.getRepository(User);</span><br><span class="line"><span class="keyword">const</span> result = <span class="keyword">await</span> userRepository.find(&#123;</span><br><span class="line">    skip: <span class="number">0</span>,</span><br><span class="line">    take: <span class="number">10</span>,</span><br><span class="line">&#125;)</span><br><span class="line"><span class="built_in">console</span>.log(result);</span><br></pre></td></tr></table></figure>
+
+<p>执行的<code>SQL</code>类似 </p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">user</span> <span class="keyword">limit</span> <span class="number">0</span>,<span class="number">10</span>;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="二、Find的进阶选项"><a href="#二、Find的进阶选项" class="headerlink" title="二、Find的进阶选项"></a>二、<code>Find</code>的进阶选项</h2><p><code>TypeORM</code>提供了许多内置运算符，可用于创建更复杂的查询：</p>
+<ul>
+<li><p>1、<code>Not</code></p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 10.Not</span></span><br><span class="line"><span class="keyword">const</span> userRepository = connection.getRepository(User);</span><br><span class="line"><span class="keyword">const</span> result = <span class="keyword">await</span> userRepository.find(&#123;</span><br><span class="line">    username: Not(<span class="string">'王五'</span>)</span><br><span class="line">&#125;);</span><br><span class="line"><span class="built_in">console</span>.log(result);</span><br></pre></td></tr></table></figure>
+
+<p>执行的<code>SQL</code>类似 </p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">user</span> <span class="keyword">where</span> username != <span class="string">'王五'</span>;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>2、<code>LessThan</code>小于,一般用于数字</p>
+</li>
+<li><p>3、<code>LessThanOrEqual</code>小于或者等于</p>
+</li>
+<li><p>4、<code>MoreThan</code>大于</p>
+</li>
+<li><p>5、<code>MoreThanOrEqual</code>大于等于</p>
+</li>
+<li><p>6、<code>Equal</code>等于</p>
+</li>
+<li><p>7、<code>Like</code>模糊查询 <code>xx: LIKE(&#39;%yy%&#39;)</code></p>
+</li>
+<li><p>8、<code>Between</code>两个范围之间<code>xx: Between(1,10)</code></p>
+</li>
+<li><p>9、<code>In</code>在什么里面<code>xx: In([&#39;&#39;,&#39;&#39;])</code></p>
+</li>
+<li><p>10、上面的可以多个组合起来一起使用</p>
+</li>
+</ul>
+<h2 id="三、TypeORM不仅仅提供Find方法-还有一系列的方法"><a href="#三、TypeORM不仅仅提供Find方法-还有一系列的方法" class="headerlink" title="三、TypeORM不仅仅提供Find方法,还有一系列的方法"></a>三、<code>TypeORM</code>不仅仅提供<code>Find</code>方法,还有一系列的方法</h2><ul>
+<li>1、<code>find</code>查找返回一个数组</li>
+<li>2、<code>findOne</code>查询返回一个对象,直接传递一个数字进去,会根据<code>id</code>去查询</li>
+<li>3、<code>findAndCount</code>查询返回数量<code>[data, count]</code></li>
+<li>4、<code>findByIds([])</code>根据<code>id</code>数组查询</li>
+</ul>
+<h2 id="四、本章节代码"><a href="#四、本章节代码" class="headerlink" title="四、本章节代码"></a>四、<a href="https://github.com/kuangshp/nest-book-code/tree/15.find" target="_blank" rel="noopener">本章节代码</a></h2><h2 id="一、什么是QueryBuilder"><a href="#一、什么是QueryBuilder" class="headerlink" title="一、什么是QueryBuilder"></a>一、什么是<code>QueryBuilder</code></h2><p><code>QueryBuilder</code>是<code>TypeORM</code>最强大的功能之一 ,它允许你使用优雅便捷的语法构建<code>SQL</code>查询，执行并获得自动转换的实体。也是进行复杂查询必使用的技能之一。</p>
+<h2 id="二、创建QueryBuilder的几种方式"><a href="#二、创建QueryBuilder的几种方式" class="headerlink" title="二、创建QueryBuilder的几种方式"></a>二、创建<code>QueryBuilder</code>的几种方式</h2><ul>
+<li><p>1、使用<code>connection</code>创建方式一</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">"reflect-metadata"</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; createConnection, getConnection &#125; <span class="keyword">from</span> <span class="string">"typeorm"</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; User &#125; <span class="keyword">from</span> <span class="string">"./entity/User"</span>;</span><br><span class="line"></span><br><span class="line">createConnection().then(<span class="keyword">async</span> connection =&gt; &#123;</span><br><span class="line">  <span class="comment">// 1.使用connection创建</span></span><br><span class="line">  <span class="keyword">const</span> user = <span class="keyword">await</span> getConnection()</span><br><span class="line">    .createQueryBuilder()</span><br><span class="line">    .select([<span class="string">'user.id'</span>, <span class="string">'user.username'</span>]) <span class="comment">// 需要选择查询的字段,如果想要全部查询可以不加select</span></span><br><span class="line">    .from(User, <span class="string">'user'</span>) <span class="comment">// 从哪张表,并且定义别名为user</span></span><br><span class="line">    .where(<span class="string">'(user.id=:id)'</span>, &#123; id: <span class="number">1</span> &#125;) <span class="comment">// 过滤条件</span></span><br><span class="line">    .getOne(); <span class="comment">// 查询一个</span></span><br><span class="line">  <span class="built_in">console</span>.log(user);</span><br><span class="line">&#125;).catch(<span class="function"><span class="params">error</span> =&gt;</span> <span class="built_in">console</span>.log(error));</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>2、使用<code>connection</code>创建方式二</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 2.使用connection创建</span></span><br><span class="line"><span class="keyword">const</span> user = <span class="keyword">await</span> getConnection()</span><br><span class="line">  .createQueryBuilder(User, <span class="string">'user'</span>)</span><br><span class="line">  .select([<span class="string">'user.id'</span>, <span class="string">'user.username'</span>])</span><br><span class="line">  .where(<span class="string">'(user.id=:id)'</span>, &#123; id: <span class="number">1</span> &#125;)</span><br><span class="line">  .getOne();</span><br><span class="line"><span class="built_in">console</span>.log(user);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>3、使用<code>entity manager</code></p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 3.使用entity manager创建</span></span><br><span class="line"><span class="keyword">const</span> user = <span class="keyword">await</span> getManager()</span><br><span class="line">  .createQueryBuilder(User, <span class="string">'user'</span>)</span><br><span class="line">  .select(<span class="string">'user'</span>)</span><br><span class="line">  .getMany();</span><br><span class="line"><span class="built_in">console</span>.log(user);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>4、使用<code>repository</code></p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 4.使用repository创建</span></span><br><span class="line"><span class="keyword">const</span> user = <span class="keyword">await</span> getRepository(User)</span><br><span class="line">  .createQueryBuilder(<span class="string">'user'</span>)</span><br><span class="line">  .getMany();</span><br><span class="line"><span class="built_in">console</span>.log(user);</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="三、QueryBuilder五种类型"><a href="#三、QueryBuilder五种类型" class="headerlink" title="三、QueryBuilder五种类型"></a>三、<code>QueryBuilder</code>五种类型</h2><ul>
+<li><p>1、查询数据</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> user = <span class="keyword">await</span> getConnection()</span><br><span class="line">  .createQueryBuilder(User, <span class="string">'user'</span>)</span><br><span class="line">  .select([<span class="string">'user.id'</span>, <span class="string">'user.username'</span>])</span><br><span class="line">  .where(<span class="string">'(user.id=:id)'</span>, &#123; id: <span class="number">1</span> &#125;)</span><br><span class="line">  .getOne();</span><br><span class="line"><span class="built_in">console</span>.log(user);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>2、插入数据</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 插入数据</span></span><br><span class="line"><span class="keyword">const</span> result = <span class="keyword">await</span> getConnection()</span><br><span class="line">  .createQueryBuilder()</span><br><span class="line">  .insert() <span class="comment">// 插入数据的时候要指明插入到那个实体类</span></span><br><span class="line">  .into(User)</span><br><span class="line">  .values([&#123; username: <span class="string">'张三'</span>, password: <span class="string">'1234'</span> &#125;, &#123; username: <span class="string">'李四'</span>, password: <span class="string">'12345'</span> &#125;])</span><br><span class="line">  .execute();</span><br><span class="line"><span class="built_in">console</span>.log(result);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>3、更新数据</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 更新数据</span></span><br><span class="line"><span class="keyword">const</span> result = <span class="keyword">await</span> getConnection()</span><br><span class="line">  .createQueryBuilder()</span><br><span class="line">  .update(User)</span><br><span class="line">  .set(&#123; username: <span class="string">'哈哈哈'</span> &#125;)</span><br><span class="line">  .where(<span class="string">'id=:id'</span>, &#123; id: <span class="number">1</span> &#125;)</span><br><span class="line">  .execute();</span><br><span class="line"><span class="built_in">console</span>.log(result);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>4、删除数据</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 删除数据</span></span><br><span class="line"><span class="keyword">const</span> result = <span class="keyword">await</span> getConnection()</span><br><span class="line">  .createQueryBuilder()</span><br><span class="line">  .delete()</span><br><span class="line">  .from(User)</span><br><span class="line">  .where(<span class="string">'id=:id'</span>, &#123; id: <span class="number">3</span> &#125;)</span><br><span class="line">  .execute();</span><br><span class="line"><span class="built_in">console</span>.log(result);</span><br></pre></td></tr></table></figure></li>
+<li><p>5、创建关系查询</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 创建关系查询</span></span><br><span class="line"><span class="keyword">const</span> result = <span class="keyword">await</span> getConnection()</span><br><span class="line">  .createQueryBuilder(User, <span class="string">'user'</span>)</span><br><span class="line">  <span class="comment">// 第一个参数是定义字段,第二个实体类,第三个是别名,第四个是条件</span></span><br><span class="line">  .leftJoinAndMapMany(<span class="string">'user.posts'</span>, Posts, <span class="string">'posts'</span>, <span class="string">'user.id=posts.userId'</span>)</span><br><span class="line">  .getMany();</span><br><span class="line"><span class="built_in">console</span>.log(<span class="built_in">JSON</span>.stringify(result));</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="四、查询数据方法"><a href="#四、查询数据方法" class="headerlink" title="四、查询数据方法"></a>四、查询数据方法</h2><ul>
+<li><p>1、<code>getOne</code>查询一条数据</p>
+</li>
+<li><p>2、<code>getMany</code>查询多条数据</p>
+</li>
+<li><p>3、<code>getRawOne</code>使用聚合函数的时候下查询一条数据</p>
+</li>
+<li><p>4、<code>getRawMany</code>使用聚合函数的时候下查询多条数据</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> result = <span class="keyword">await</span> getConnection()</span><br><span class="line">  .createQueryBuilder(User, <span class="string">'user'</span>)</span><br><span class="line">  <span class="comment">// 使用了聚合函数就要使用getRawOne或者getRawMany方法</span></span><br><span class="line">  .select(<span class="string">'SUM(user.id)'</span>, <span class="string">'sum'</span>)</span><br><span class="line">  .getRawOne();</span><br><span class="line"><span class="built_in">console</span>.log(result);</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="五、传递参数"><a href="#五、传递参数" class="headerlink" title="五、传递参数"></a>五、传递参数</h2><ul>
+<li><p>1、直接使用</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.where(<span class="string">"user.username = :username"</span>, &#123; username: <span class="string">"哈哈"</span> &#125;)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>2、使用<code>setParameter</code>填充值</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">.where(<span class="string">"user.username = :username"</span>)</span><br><span class="line">.setParameter(<span class="string">"username"</span>, <span class="string">"哈哈"</span>)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>3、<code>LIKE</code>模糊查询</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.where(<span class="string">"user.username like :username"</span>, &#123;username: <span class="string">`% <span class="subst">$&#123;username&#125;</span> %`</span>&#125;)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>4、<code>IN</code>查询</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.where(<span class="string">"user.username IN (:...username)"</span>, &#123; username: [ <span class="string">"Timber"</span>, <span class="string">"Cristal"</span>, <span class="string">"Lina"</span> ] &#125;)</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="六、本章节参考代码"><a href="#六、本章节参考代码" class="headerlink" title="六、本章节参考代码"></a>六、<a href="https://github.com/kuangshp/nest-book-code/tree/16.queryBuilder" target="_blank" rel="noopener">本章节参考代码</a></h2><hr>
+<p>前面我们使用<code>synchronize=true</code>同步实体类到数据表中,在实际开发中你可能会多次更改实体类,但是数据库已经有数据了,你也不可能先删除之前的数据表,然后再来同步,上线后的项目也会把同步功能关闭。以避免生产的数据被删除。解决方式有</p>
+<ul>
+<li>1、手动写<code>SQL</code>语句增加列到数据表中,然后再实体类中添加对应的字段值。对于没<code>SQL</code>基础的同学来说可能有点难度</li>
+<li>2、采用手动迁移的方式,如果你曾经用过<code>django</code>的,就知道这功能。直接写好实体类,简单运行几个命令就同步到数据库</li>
+</ul>
+<h2 id="一、配置命令"><a href="#一、配置命令" class="headerlink" title="一、配置命令"></a>一、配置命令</h2><blockquote>
+<p>可能你记住不那么多命令,但是我们<code>node</code>项目都可以把命令配置到<code>package.json</code>文件</p>
+</blockquote>
+  <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"scripts"</span>: &#123;</span><br><span class="line">    <span class="attr">"start"</span>: <span class="string">"ts-node src/index.ts"</span>,</span><br><span class="line">    <span class="attr">"generate"</span>: <span class="string">"ts-node  ./node_modules/typeorm/cli.js migration:generate -n Test"</span>,</span><br><span class="line">    <span class="attr">"db"</span>: <span class="string">"ts-node ./node_modules/typeorm/cli.js migration:run"</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>1、我们每次修改实体类的时候先后运行命令</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 注意顺序执行</span></span><br><span class="line">npm run generate</span><br><span class="line">npm run db</span><br></pre></td></tr></table></figure></li>
+<li><p>2、<a href="https://github.com/kuangshp/nest-book-code/tree/17.migration" target="_blank" rel="noopener">代码参考</a></p>
+</li>
+</ul>
+</div><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="mailto:undefined">laosu</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="https://suzhihui.github.io/2020/09/08/nestjs-%E5%9B%9B/">https://suzhihui.github.io/2020/09/08/nestjs-%E5%9B%9B/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/nestjs/">nestjs</a></div><div class="post_share"><div class="social-share" data-image="/img/post.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css"/><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js"></script></div></div><div class="post-reward"><a class="reward-button button--primary button--animated"> <i class="fa fa-qrcode"></i> Donate<div class="reward-main"><ul class="reward-all"><li class="reward-item"><img class="lazyload post-qr-code__img" src="/img/wechat.jpg" alt="微信"/><div class="post-qr-code__desc">微信</div></li><li class="reward-item"><img class="lazyload post-qr-code__img" src="/img/alipay.jpg" alt="支付寶"/><div class="post-qr-code__desc">支付寶</div></li></ul></div></a></div><nav class="pagination_post" id="pagination"><div class="prev-post pull_left"><a href="/2020/09/09/nestjs-%E4%BA%94/"><img class="prev_cover lazyload" data-src="/img/post.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">Previous Post</div><div class="prev_info">nestjs(五)</div></div></a></div><div class="next-post pull_right"><a href="/2020/09/03/nestjs-%E4%B8%89/"><img class="next_cover lazyload" data-src="/img/desk.png" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">Next Post</div><div class="next_info">nestjs(三)</div></div></a></div></nav><div class="relatedPosts"><div class="relatedPosts_headline"><i class="fa fa-fw fa-thumbs-up" aria-hidden="true"></i><span> Recommend</span></div><div class="relatedPosts_list"><div class="relatedPosts_item"><a href="/2020/09/03/nestjs-三/" title="nestjs(三)"><img class="relatedPosts_cover lazyload"data-src="/img/desk.png"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-09-03</div><div class="relatedPosts_title">nestjs(三)</div></div></a></div><div class="relatedPosts_item"><a href="/2020/08/30/nestjs-一/" title="nestjs(一)"><img class="relatedPosts_cover lazyload"data-src="/img/desk.png"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-08-30</div><div class="relatedPosts_title">nestjs(一)</div></div></a></div><div class="relatedPosts_item"><a href="/2020/09/01/nestjs-二/" title="nextjs(二)"><img class="relatedPosts_cover lazyload"data-src="/img/desk.png"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-09-01</div><div class="relatedPosts_title">nextjs(二)</div></div></a></div><div class="relatedPosts_item"><a href="/2020/09/09/nestjs-五/" title="nestjs(五)"><img class="relatedPosts_cover lazyload"data-src="/img/post.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-09-09</div><div class="relatedPosts_title">nestjs(五)</div></div></a></div></div><div class="clear_both"></div></div></article></main><footer id="footer" data-type="color"><div id="footer-wrap"><div class="copyright">&copy;2020 By laosu</div><div class="framework-info"><span>Driven </span><a href="https://hexo.io" target="_blank" rel="noopener"><span>Hexo</span></a><span class="footer-separator">|</span><span>Theme </span><a href="https://github.com/jerryc127/hexo-theme-butterfly" target="_blank" rel="noopener"><span>Butterfly</span></a></div></div></footer></div><section class="rightside" id="rightside"><div id="rightside-config-hide"><i class="fa fa-book" id="readmode" title="Read Mode"></i><i class="fa fa-plus" id="font_plus" title="Increase font size"></i><i class="fa fa-minus" id="font_minus" title="Decrease font size"></i><a class="translate_chn_to_cht" id="translateLink" href="javascript:translatePage();" title="Traditional Chinese and Simplified Chinese Conversion" target="_self">繁</a><i class="darkmode fa fa-moon-o" id="darkmode" title="Dark Mode"></i></div><div id="rightside-config-show"><div id="rightside_config" title="Setting"><i class="fa fa-cog" aria-hidden="true"></i></div><i class="fa fa-list-ul close" id="mobile-toc-button" title="Table of Contents" aria-hidden="true"></i><i class="fa fa-arrow-up" id="go-up" title="Back to top" aria-hidden="true"></i></div></section><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js" ></script><script src="/js/utils.js" ></script><script src="/js/main.js" ></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@latest/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/lazysizes@latest/lazysizes.min.js" async=""></script></body></html>
